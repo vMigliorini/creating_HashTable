@@ -43,6 +43,9 @@ class HashTable:
         else:
             raise KeyError(key)
 
+    def __iter__(self):
+        yield from self.keys
+
     def _index(self, key):
         return hash(key) % self.capacity
 
