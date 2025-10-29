@@ -56,8 +56,38 @@ class HashTable:
         cls = self.__class__.__name__
         return f"{cls}.from_dict({str(self)})"
 
+    def __eq__(self, other):
+        if self is other:
+            return True
+        if type(self) is not type(other):
+            return False
+        return set(self.pairs) == set(other.pairs)
+
     def _index(self, key):
         return hash(key) % self.capacity
+
+    def copy(self):
+        return HashTable.from_dict(dict(self.pairs), self.capacity)
+
+    def clear(self):
+        self._slots = self.capacity * [None]
+
+    def update(self, storage=None, **kwargs):
+        if kwargs:
+            for key, value in kwargs.items():
+                self[key] = value
+
+        if storage is not None:
+            if hasattr(storage, 'items'):
+                for key, value in storage.items():
+                    self[key] = value
+
+            else:
+                for key, value in storage:
+                    self[key] = value
+
+
+
 
     @property
     def values(self):
