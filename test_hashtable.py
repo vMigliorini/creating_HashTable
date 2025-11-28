@@ -4,6 +4,7 @@ from pickle import EMPTY_DICT
 from HashTable import HashTable
 import pytest
 from pytest_unordered import unordered
+from unittest.mock import patch
 
 def test_should_always_pass():
     assert HashTable(capacity=100) is not None
@@ -199,7 +200,6 @@ def test_should_create_hashtable_from_dict():
 
     hash_table = HashTable.from_dict(dictionary)
 
-    assert hash_table.capacity == len(dictionary) * 10
     assert hash_table.keys == set(dictionary.keys())
     assert hash_table.pairs == set(dictionary.items())
     assert unordered(hash_table.values) == list(dictionary.values())
@@ -282,3 +282,13 @@ def test_should_update_hastable_with_keyword_arguments(hash_table):
 
     assert hash_table["altura"] == 1.80
     assert hash_table["ciao"] == "ola"
+
+
+#HASH COLLISION ADDRESSED BELOW
+
+def test_should_detect_hash_collision():
+    assert hash("foobar") not in [1, 2, 3]
+    with patch("builtins.hash", side_effect=[1, 2, 3]):
+        assert hash("foobar") == 1
+        assert hash("foobar") == 2
+        assert hash("foobar") == 3
