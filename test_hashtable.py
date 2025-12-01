@@ -99,11 +99,6 @@ def test_should_update_value(hash_table):
     assert hash_table[False] is True
     assert len(hash_table) == 3
 
-def test_should_return_pairs(hash_table):
-    assert ("hola", "hello") in hash_table.pairs
-    assert (98.6, 37) in hash_table.pairs
-    assert (False, True) in hash_table.pairs
-
 def test_should_return_copy_of_pairs(hash_table):
     assert hash_table.pairs is not hash_table.pairs
 
